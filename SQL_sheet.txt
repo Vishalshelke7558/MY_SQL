@@ -1,0 +1,221 @@
+DDL ( DATA DEFINATION LANGUAGE )- To develop structure of table
+
+1. CREATE  - To create new table
+
+create table employee (
+emp_id int not null,
+first_name varchar(20),
+last_name varchar(20),
+salary int,
+primary key(emp_id)
+);
+   
+2. select * from emloyee  -  To display our table
+
+3. describe employee -  logical outlook of table
+
+3. ALTER - To add new column or to rename any column
+
+i. alter table employee add column contact int;
+ii. alter table employee rename column contact to job_code;
+
+4. TRUNCATE - Remove data from table
+truncate table employee;
+
+5. DROP -  remove data and table both
+drop table employee;
+
+DML (DATA MANIPULATION LANGUAGE) - To manipulate data of table
+
+6. INSERT
+insert into employee
+(emp_id,first_name,last_name,salary)values
+(1,'Vishal','shelke',100000);
+
+7. UPDATE - To update the pervoius data of perticular cell
+update employee
+set last_name = 'shelke'
+where emp_id = 1;
+   // it changes last name of employe having id 1
+
+8. DELETE - To delete a data of perticular employee
+delete from employee
+where emp_id in(1,4)
+   // it removes data of employees having id 1 and 4
+
+DCL - ( DATA CONTROL LANGUAGE) - use for security
+
+9. GRANT - allow acess
+grant <privilage list>on
+<relational name>  to
+<user>
+
+10. REVOKE - ( WITHDROW ACESS )
+revoke <privlilage list>on
+<relational name> to
+<user>
+
+TCL - ( TRANSACTION CONTROL LANGUAGE )
+11. Commit - (SAVE THE WORK DONE)
+
+12. Rollback - (RESTORE THE DATABASE TO ORIGIN FORM LAST COMMIT)
+   (undo)
+
+13. Savepoint - (IDENTIFY A PROBLEM IN TRANSACTION TO WHICH
+                 YOU CAN ROLL BACK)
+
+SQL OPERATORS 
+14. where clause - (To display data of perticular row)
+select * from employee where emp_id = 101;
+   // it display data of row having id 101
+
+15. LOGICAL OPERATOR (if result is true then show data of perticular cell)
+i. and
+select * from employee where emp_id = 101 and salary = 100;
+
+ii.or
+select *  from employee where emp_id = 100 and salary = 200;
+
+iii. Not
+select * from employee where emp_id = 100 and salary != 200;
+
+16. COMPARISON OPERATOR
+select * from employee where emp_id = 100 or salary >= 100;
+   // it dis
+
+SPECIAL OPERATOR
+
+17. BETWEEN - (display value with in range)
+select* from employee where salary between 100 and 200;
+  // it include upper limit and lower limit
+ 
+18. LIKE - ( CHECK VALUE MATCH OF GIVEN ATTRIBUTE)
+ select * from employee where last_name like 's%';
+
+19. IN - ( CHECK VALUE MATCH WWITH IN LIST OR NOT )
+  select * from employee where salary in (100,200,300);
+
+20. DISTINCT - ( DISPLAY UNIQUE VALUE )
+  select distinct (first_name ) from employee;
+
+21. IS NULL - ( CHECK AN ATTRIBUTE VALUE IS NULL )
+   select * from employee where salary is null;
+
+AGGREGATIONS 
+
+22. AVG() - (RETURN TE AVG VALUE FORM GIVEN COLUMN)
+select avg(salary) from employee;
+
+23. COUNT() -  (DISPLAY NUMBER OF TABLE ROWS)
+select count(*) from employee;
+
+24. MAX() - (GIVE LARGEST VALUE)
+select max(salary) from employee;
+
+25. MIN -( GIVE MINIMUM VALUE )
+select min(salary) from employee;
+
+26. SUM()
+select sum(salary) from employee;
+
+27. GROUP BY CLAUSE - (we can find value according to section)
+select firdt_name, max(salary) from employee group by dept;
+ // it gives max salary and employee name with respect to department;
+
+28. HAVING CLAUSE - ( IT DISPLAY RESULT BY SORTING THE COLUMN DATA)
+select first_name, max(salary) from employee group by dept having count(dept) >= 2;
+ // it give maximum salary of employee form column in which employee work more than two
+   department
+
+29. ORDER BY CLAUSE - (USED TO SORT THE OUTPUT )
+select * from employee order by salary asc; (FOR ASSENDING ORDER)
+select * from employee order by salary desc; (FOR DECENDING ORDER )
+// default is assending order
+
+30. SQL UNION 
+//used to combine result set of two or more SELECT statements removing duplicate
+//each select statemet with in the union must have the same number of column
+// selected column must have similar data
+
+select product_name from product1
+UNION
+select product_name from product2;
+
+// it display product name by removing duplicate
+
+31. SQL UNION ALL - ( SAME AS UNION BUT DISPLAY DUPLICATE VALUE ALSO)
+select cat_id,prod_name from product1
+union all
+select cat_id, prod_name from product2;
+
+32. SQL INTERSECT - (GIVE COMMON ELEMANT)
+select prod_name from product1
+intersect
+select prod_name from product2; 
+
+SQL JOINS - ( USED TO COMBINE TWO OR MORE TABLE )
+i. INNER JOIN - return a row when there is a metch in both table
+
+ii. LEFT JOIN - returns all from left table even if there is no match in
+               right table
+
+iii. RIGHT JOIN -  returns all row from right table even if 
+                there is no matches in both table
+
+iv . FULL OUTER JOIN -  return a row when there is a match in one 
+                of the table
+
+v. SELF JOIN - used to join a table to itself as if the 
+              table where two tables, temporarily renaming at
+               least one table in sql join
+
+vi. CARTESIAN JOIN - returns certain product of the sets
+            of record from the two or more join
+
+33. INNER JOIN
+select product1.cat_id, product1.prod_name,product2.prod_name
+from product1
+inner join product2
+on product1.cat_id = product2.cat_id;
+ // it display the product name where cat_id is same
+
+34. LEFT OUTER JOIN
+select p.cat_id,p.prod_name,i.prod_name
+from product1 p
+left outer join item i
+on p.cat_id =  i.cat_id;
+  // it display all the row from product1 and those row from item
+     where cat_id is same other value put null
+
+35. RIGHT OUTER JOIN
+select p.cat_id,p.prod_name,i.prod_name
+from product1 p
+right outer join item i
+on p.cat_id = i.cat_id;
+   // it display all element from item table but only those element from
+     left table where cat_id match
+
+36. FULL OUTER JOIN - ( IT COMBINE THE RESULT OF LEFT JOIN AND RIGHT JOIN)
+select p.cat_id,p.prod_name,i.prod_name
+from product1 p
+left outer join item i
+on p.cat_id = i.cat_id
+union
+select p.cat_id,p.prod_name,i.prod_name
+from product1 p
+right outer join item i
+on p.cat_id = i.cat_id;
+   // it display common element of left join and right join
+
+37.  CROSS JOIN - ( IT GIVE PRODUCT OF THE TABLE)
+ // suppose we have 3 element in table 1 and 4 element in table 2
+    then it shows the 12 result
+
+
+
+
+    
+
+
+
+    
